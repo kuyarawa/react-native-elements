@@ -47,6 +47,25 @@ const CheckBox = props => {
   if (checked) {
     iconName = checkedIcon;
   }
+
+  let _renderIcon = () => {
+    if (checked && typeof checkedIcon !== 'string') {
+      return checkedIcon;
+    }
+    else if (!checked && typeof uncheckedIcon !== 'string') {
+      return uncheckedIcon;
+    }
+
+    return <Icon
+      color={checked ? checkedColor : uncheckedColor}
+      name={iconName}
+      size={24}
+      onLongPress={onLongIconPress}
+      onPress={onIconPress}
+    />;
+  };
+
+
   return (
     <Component
       onLongPress={onLongPress}
@@ -57,35 +76,21 @@ const CheckBox = props => {
       <View
         style={[
           styles.wrapper,
-          right && { justifyContent: 'flex-end' },
-          center && { justifyContent: 'center' },
+          right && {justifyContent: 'flex-end'},
+          center && {justifyContent: 'center'},
         ]}
       >
-        {!iconRight &&
-          <Icon
-            color={checked ? checkedColor : uncheckedColor}
-            name={iconName}
-            size={24}
-            onLongPress={onLongIconPress}
-            onPress={onIconPress}
-          />}
+        {!iconRight && _renderIcon()}
         <TextElement
           style={[
             styles.text,
             textStyle && textStyle,
-            fontFamily && { fontFamily },
+            fontFamily && {fontFamily},
           ]}
         >
           {checked ? checkedTitle || title : title}
         </TextElement>
-        {iconRight &&
-          <Icon
-            color={checked ? checkedColor : uncheckedColor}
-            name={iconName}
-            size={24}
-            onLongPress={onLongIconPress}
-            onPress={onIconPress}
-          />}
+        {iconRight && _renderIcon()}
       </View>
     </Component>
   );
@@ -113,8 +118,14 @@ CheckBox.propTypes = {
   textStyle: NativeText.propTypes.style,
   onPress: PropTypes.func,
   onLongPress: PropTypes.func,
-  checkedIcon: PropTypes.string,
-  uncheckedIcon: PropTypes.string,
+  checkedIcon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
+  uncheckedIcon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
   iconType: PropTypes.string,
   checkedColor: PropTypes.string,
   uncheckedColor: PropTypes.string,
