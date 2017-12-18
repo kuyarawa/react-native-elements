@@ -31,17 +31,20 @@ const ButtonGroup = props => {
     onShowUnderlay,
     setOpacityTo,
     containerBorderRadius,
+    disableSelected,
     ...attributes
   } = props;
 
   const Component = component || TouchableHighlight;
   return (
     <View
-      style={[styles.container, containerStyle && containerStyle]}
       {...attributes}
+      style={[styles.container, containerStyle && containerStyle]}
     >
       {buttons.map((button, i) => {
-        const containerRadius = !isNaN(containerBorderRadius) ? containerBorderRadius : 3;
+        const containerRadius = !isNaN(containerBorderRadius)
+          ? containerBorderRadius
+          : 3;
         return (
           <Component
             activeOpacity={activeOpacity}
@@ -49,6 +52,7 @@ const ButtonGroup = props => {
             onHideUnderlay={onHideUnderlay}
             onShowUnderlay={onShowUnderlay}
             underlayColor={underlayColor || '#ffffff'}
+            disabled={disableSelected && i === selectedIndex ? true : false}
             onPress={onPress ? () => onPress(i) : () => {}}
             key={i}
             style={[
@@ -162,6 +166,7 @@ ButtonGroup.propTypes = {
   buttonStyle: ViewPropTypes.style,
   selectedBackgroundColor: PropTypes.string,
   containerBorderRadius: PropTypes.number,
+  disableSelected: PropTypes.bool,
 };
 
 export default ButtonGroup;

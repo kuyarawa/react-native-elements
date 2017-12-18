@@ -28,6 +28,7 @@ const CheckBox = props => {
     onLongPress,
     onIconPress,
     onLongIconPress,
+    size,
     checkedIcon,
     uncheckedIcon,
     iconType,
@@ -68,10 +69,10 @@ const CheckBox = props => {
 
   return (
     <Component
+      {...attributes}
       onLongPress={onLongPress}
       onPress={onPress}
       style={[styles.container, containerStyle && containerStyle]}
-      {...attributes}
     >
       <View
         style={[
@@ -105,13 +106,14 @@ CheckBox.defaultProps = {
   uncheckedColor: '#bfbfbf',
   checkedIcon: 'check-square-o',
   uncheckedIcon: 'square-o',
+  size: 24,
 };
 
 CheckBox.propTypes = {
   component: PropTypes.any,
   checked: PropTypes.bool,
   iconRight: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   center: PropTypes.bool,
   right: PropTypes.bool,
   containerStyle: ViewPropTypes.style,
@@ -127,6 +129,7 @@ CheckBox.propTypes = {
     PropTypes.element,
   ]),
   iconType: PropTypes.string,
+  size: PropTypes.number,
   checkedColor: PropTypes.string,
   uncheckedColor: PropTypes.string,
   checkedTitle: PropTypes.string,
